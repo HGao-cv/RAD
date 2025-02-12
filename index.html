@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="description"
+        content="PAD: End-to-End Autonomous Driving via Probabilistic Planning">
+  <meta name="keywords" content="Gaussians, Dynamic, Rendering, Splatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PAD: End-to-End Autonomous Driving via Probabilistic Planning</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/hust.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://guanjunwu.github.io">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="https://jaminfong.cn/neusample/">
+            NeuSample
+          </a>
+          <a class="navbar-item" href="https://jaminfong.cn/tineuvox/">
+            TiNeuVox
+          </a>
+          <a class="navbar-item" href="https://taoranyi.com/gneuvox/">
+            GNeuVox
+           </a>
+          <a class="navbar-item" href="https://jumpat.github.io/SA3D/">
+            Segment Anything in 3D with NeRFs
+          </a>
+          <a class="navbar-item" href="https://guanjunwu.github.io/HDR-HexPlane/">
+            HDR-HexPlane
+          </a>
+          <a class="navbar-item" href="https://taoranyi.com/gaussiandreamer/">
+            GaussianDreamer
+          </a>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav> -->
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">PAD: End-to-End  Autonomous Driving</h1>
+          <h1 class="title is-1 publication-title">via Probabilistic Planning</h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=PIeNN2gAAAAJ&hl=en&oi=ao">Shaoyu Chen</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=UlDxGP0AAAAJ&hl=en">Bo Jiang</a><sup>1*</sup>,</span>
+            <span class="author-block">
+              <a href="https://github.com/hustvl/VAD">Hao Gao</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?hl=en&user=rUBdh_sAAAAJ">Bencheng Liao</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://github.com/hustvl/VAD">Qing Xu</a><sup>2</sup>,
+            </span>
+            <p></p>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=pCY-bikAAAAJ&hl=en">Qian Zhang</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://scholar.google.com/citations?user=IyyEKyIAAAAJ&hl=en">Chang Huang</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://eic.hust.edu.cn/professor/liuwenyu/">Wenyu Liu</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://xwcv.github.io/">Xinggang Wang</a><sup>1,✉</sup>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Huazhong University of Science &amp; Technology</span>
+            <span class="author-block"><sup>2</sup>Horizon Robotics</span>
+            <p></p>
+            <span class="author-block"><sup>*</sup>Equal Contributions.</span>
+            <!-- <span class="author-block"><sup>‡</sup>Project Lead.</span> -->
+
+            <span class="author-block"><sup>✉</sup>Corresponding Authors.</span>
+
+          <!-- </div> -->
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2402.13243.pdf"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/abs/2310.08528"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span> --> 
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/hustvl/VAD"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming soon)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<div class="container is-max-desktop">
+<h2 class="title is-3">Ten Routes of Town05 Long Benchmark</h2>
+  <div class="columns is-centered">
+    <div class="columns is-multiline is-mobile is-centered"> 
+      <!-- Row 1, Column 1 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-1" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp1.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    
+      <!-- Row 1, Column 2 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-2" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp2.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    
+      <!-- Row 2, Column 1 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-3" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp3.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    
+      <!-- Row 2, Column 2 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-4" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp4.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    
+      <!-- Row 3, Column 1 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-5" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp5.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+          
+      <!-- Row 3, Column 2 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-6" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp6.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <!-- Row 4, Column 1 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-7" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp7.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+          
+      <!-- Row 4, Column 2 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-8" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp8.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+      <!-- Row 5, Column 1 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-7" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp9.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+          
+      <!-- Row 5, Column 2 -->
+      <div class="column is-half">
+        <div class="content">
+          <video id="matting-video-8" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/vis_v2_064102_noppp10.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div style="margin-top: 30px;"></div>
+
+<!-- <h2 class="subtitle has-text-centered">
+  <strong>An Route with Length xxkm.</strong>
+</h2> -->
+<div class="container is-max-desktop">
+<h2 class="title is-3"> A Ten Miles Long Route around Town05</h2>
+  <div class="columns is-centered">
+  <iframe width="1008" height="567" src="https://www.youtube.com/embed/zyOhP1ls3xU?si=N6ZF6h1_5n-NhU44" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Representing and rendering dynamic scenes has been an important but challenging task. Especially, to accurately model complex motions, high efficiency is usually hard to guarantee. To achieve real-time dynamic scene rendering while also enjoying high training and storage efficiency, we propose 4D Gaussian Splatting (4D-GS) as a holistic representation for dynamic scenes rather than applying 3D-GS for each individual frame. In 4D-GS, a novel explicit representation containing both 3D Gaussians and 4D neural voxels is proposed. A decomposed neural voxel encoding algorithm inspired by HexPlane is proposed to efficiently build Gaussian features from 4D neural voxels and then a lightweight MLP is applied to predict Gaussian deformations at novel timestamps.
+            Our 4D-GS method achieves real-time rendering under high resolutions, 82 FPS at an 800 X 800 resolution on an RTX 3090 GPU while maintaining comparable or better quality than previous state-of-the-art methods. 
+        </div>
+      </div>
+
+    </div> -->
+
+    <!-- <img src="./static/images/teaserfig.png"
+    class="interpolation-image"
+    alt="Interpolation end reference image."/>
+    <p>
+      Our method achieves real-time rendering for dynamic scenes at high image resolutions while maintaining high rendering quality. The right figure is mainly tested on synthetic datasets, where the radius of the dot corresponds to the training time. "Res": resolution.
+    </p> -->
+    <h2 class="title is-3">Framework</h2>
+    <img src="./static/images/frameworkv2_00.png"
+    class="interpolation-image"
+    alt="Interpolation end reference image."/>
+    <p>
+      PAD takes multi-view image sequences as input in a streaming manner, tokenizes sensor data and planning action space, outputs the probabilistic distribution of action, and samples one action to control the vehicle. Large-scale driving demonstrations and scene constraints are used to supervise the predicted distribution.
+    </p>
+  </div>
+</section>
+
+
+
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body">
+    
+
+    <div class="container">
+      <h2 class="title is-3">Training Process</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-toby">
+          <video id="teaser" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/cut_roasted_beef_time.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video id="teaser" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/cookie_time.mp4"
+                    type="video/mp4">
+          </video>
+        </div> 
+        <div class="item item-steve">
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/lego_time.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-shiba">
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/standup_time.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/jumpingjack_time.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/bouncingball_time.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section> -->
+
+
+
+<!-- <section class="section">
+ 
+<section class="hero is-light is-small">
+  
+
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3">D-NeRF Datasets</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item item-chair-tp">
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/mutant.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-blueshirt">
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/trex.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+        <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/hellwarrior.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/hook.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div>
+  </div> -->
+<!-- </section> -->
+
+  <!-- <div class="container is-max-desktop">
+
+    <section class="hero is-light is-small">
+  
+
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <h2 class="title is-3">HyperNeRF Datasets</h2>
+          <div id="results-carousel" class="carousel results-carousel">
+    
+            <div class="item item-chair-tp">
+              <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+                <source src="./static/videos/split_cookie.mp4"
+                        type="video/mp4">
+              </video>
+            </div>
+    
+            <div class="item item-blueshirt">
+              <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+                <source src="./static/videos/interp_chicken.mp4"
+                        type="video/mp4">
+              </video>
+            </div>
+    
+            <div class="item item-chair-tp">
+              <video id="matting-video"  autoplay controls muted loop playsinline height="100%">
+                <source src="./static/videos/americano.mp4"
+                        type="video/mp4">
+              </video>
+            </div>
+            <div class="item item-blueshirt">
+              <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+                <source src="./static/videos/torchocolate.mp4"
+                        type="video/mp4">
+              </video>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="columns is-centered">
+
+      <div class="column">
+        <div class="columns is-centered">
+          <div class="column content">
+
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <section class="hero teaser">
+      <h2 class="title is-3">Real-Time Viewer</h2>
+
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+    
+          <video id="teaser" autoplay muted loop playsinline height="50%">
+            <source src="./static/videos/train_visualize.mp4"
+                    type="video/mp4">
+          </video>
+    
+        </div>
+      </div>
+    </section>
+    <h2 class="title is-3">Fixed-View Rendering</h2>
+
+    <div class="columns is-centered"> -->
+      <!-- <div class="column">
+        <div class="content">
+
+          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/cook_spinach_fix_2_60.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div> -->
+      <!--/ Visual Effects. -->
+
+      <!-- Matting. -->
+      <!-- <div class="column">
+        <div class="columns is-centered">
+          <div class="column content">
+
+            <video id="matting-video"  autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/cut_roasted_beef_fix_2_60.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+
+        </div>
+      </div>
+    </div> -->
+    <!--/ Matting. -->
+
+    <!-- Animation. -->
+    <!-- <h2 class="title is-3">Free-View Rendering</h2>
+
+    <div class="columns is-centered"> -->
+      <!-- <p>
+        As a byproduct of our method, we can also solve the matting problem by ignoring
+        samples that fall outside of a bounding box during rendering.
+      </p> -->
+      <!-- Visual Effects. -->
+      <!-- <div class="column">
+        <div class="content"> -->
+          <!-- <h2 class="title is-3">Visual Effects</h2> -->
+
+          <!-- <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/cook_spinach_2_30.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div> -->
+      <!--/ Visual Effects. -->
+
+      <!-- Matting. -->
+      <!-- <div class="column">
+        <div class="columns is-centered">
+          <div class="column content">
+
+            <video id="matting-video"  autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/cut_roasted_beef_2_30.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3">Merging Different 4D Gaussians</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+  
+          <div class="item item-coffee">
+            <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/editing1.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+  
+          <div class="item item-chair-tp">
+            <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/editing3.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+  
+          <div class="item item-coffee">
+            <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/editing4.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+          <div class="item item-coffee">
+            <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/editing1.mp4"
+                      type="video/mp4">
+            </video>
+          </div>
+  
+        </div>
+      </div>
+    </div> -->
+        <!-- Interpolating. -->
+        <!-- <h3 class="title is-4">Interpolating states</h3> -->
+        <!-- <div class="content has-text-justified">
+          <p>
+            We can also animate the scene by interpolating the deformation latent codes of two input
+            frames. Use the slider here to linearly interpolate between the left frame and the right
+            frame.
+          </p>
+        </div> -->
+        <!-- <div class="columns is-vcentered interpolation-panel">
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_start.jpg"
+                 class="interpolation-image"
+                 alt="Interpolate start reference image."/>
+            <p>Start Frame</p>
+          </div>
+          <div class="column interpolation-video-column">
+            <div id="interpolation-image-wrapper">
+              Loading...
+            </div>
+            <input class="slider is-fullwidth is-large is-info"
+                   id="interpolation-slider"
+                   step="1" min="0" max="100" value="0" type="range">
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_end.jpg"
+                 class="interpolation-image"
+                 alt="Interpolation end reference image."/>
+            <p class="is-bold">End Frame</p>
+          </div>
+        </div>
+        <br/> -->
+
+        <!-- Re-rendering. -->
+        <!-- <h3 class="title is-4">Re-rendering the input video</h3>
+        <div class="content has-text-justified">
+          <p>
+            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
+            viewpoint such as a stabilized camera by playing back the training deformations.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="75%">
+            <source src="./static/videos/replay.mp4"
+                    type="video/mp4">
+          </video>
+        </div>  -->
+        <!--/ Re-rendering. -->
+
+      <!-- </div> -->
+    <!-- </div> -->
+    <!--/ Animation. -->
+
+
+    <!-- Concurrent Work. -->
+    <!-- <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Links</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            There's a lot of excellent work that was introduced around the same time as ours.
+          </p>
+          <p>
+            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
+          </p>
+          <p>
+            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
+            both use deformation fields to model non-rigid scenes.
+          </p>
+          <p>
+            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
+          </p>
+          <p>
+            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    / Concurrent Work. -->
+
+  <!-- </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section>   -->
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">Acknowledgement</h2>
+    <p>
+      We would like to express our sincere gratitude to <a href="https://github.com/zhouzhenghong-gt">Zhenghong Zhou</a> for his revisions to our code and discussions on the content of our paper.
+    </p>
+  </div>
+</section> -->
+
+
+<!-- <section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{
+      title={VAD V2: LLM-like End-to-End Probabilistic Planning}
+    }</code></pre>
+  </div>
+</section> -->
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <!-- <a class="icon-link"
+         href="https://arxiv.org/abs/2310.08528">
+        <i class="fas fa-file-pdf"></i>
+      </a>  -->
+      <a class="icon-link" href="https://github.com/hustvl" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            The souce code is borrowed from <a
+              href="https://github.com/hustvl/4DGaussians">nerfies</a>,
+              We thank the authors for sharing the templates.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
