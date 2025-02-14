@@ -173,12 +173,31 @@
       </div>
     </div>
   </div>
+
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            RAD.<br><br><br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </section>
 
-<!-- <div class="container is-fluid">
-  <h2 class="title is-3 has-text-left">Ten Routes of Town05 Long Benchmark</h2>  
-  <p class="subtitle is-5 has-text-left">Left: RAD | Right: IL-only</p>  
-</div> -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Framework</h2>
+    <div class="content has-text-justified">
+      RAD takes a three-stage training paradigm. In the perception pre-training, ground-truths of map and agent are used to guide instance-level tokens to encode corresponding information. In the  planning pre-training stage, large-scale driving demonstrations are used to initialize the action distribution. In the planning post-training stage, RL and IL synergistically finetune the AD policy.
+    </div>
+    <img src="./static/images/frame.png">
+  </div>
+</section>
 
 <style>
   .container.fixed-width {
@@ -500,34 +519,6 @@
   </div>
 </div> -->
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
-            Representing and rendering dynamic scenes has been an important but challenging task. Especially, to accurately model complex motions, high efficiency is usually hard to guarantee. To achieve real-time dynamic scene rendering while also enjoying high training and storage efficiency, we propose 4D Gaussian Splatting (4D-GS) as a holistic representation for dynamic scenes rather than applying 3D-GS for each individual frame. In 4D-GS, a novel explicit representation containing both 3D Gaussians and 4D neural voxels is proposed. A decomposed neural voxel encoding algorithm inspired by HexPlane is proposed to efficiently build Gaussian features from 4D neural voxels and then a lightweight MLP is applied to predict Gaussian deformations at novel timestamps.
-            Our 4D-GS method achieves real-time rendering under high resolutions, 82 FPS at an 800 X 800 resolution on an RTX 3090 GPU while maintaining comparable or better quality than previous state-of-the-art methods. 
-        </div>
-      </div>
-
-    </div> -->
-    <!-- <img src="./static/images/teaserfig.png"
-    class="interpolation-image"
-    alt="Interpolation end reference image."/>
-    <p>
-      Our method achieves real-time rendering for dynamic scenes at high image resolutions while maintaining high rendering quality. The right figure is mainly tested on synthetic datasets, where the radius of the dot corresponds to the training time. "Res": resolution.
-    </p> -->
-    <h2 class="title is-3">Framework</h2>
-    <img src="./static/images/frameworkv2_00.png"
-    class="interpolation-image"
-    alt="Interpolation end reference image."/>
-    <p>
-      PAD takes multi-view image sequences as input in a streaming manner, tokenizes sensor data and planning action space, outputs the probabilistic distribution of action, and samples one action to control the vehicle. Large-scale driving demonstrations and scene constraints are used to supervise the predicted distribution.
-    </p>
-  </div>
-</section>
 
 
 
@@ -903,6 +894,17 @@
   </div>
 </section> -->
 
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title is-3">BibTeX</h2>
+    <pre><code>@article{Vadv2,
+  title={Vadv2: End-to-end vectorized autonomous driving via probabilistic planning},
+  author={Chen, Shaoyu and Jiang, Bo and Gao, Hao and Liao, Bencheng and Xu, Qing and Zhang, Qian and Huang, Chang and Liu, Wenyu and Wang, Xinggang},
+  journal={arXiv preprint arXiv:2402.13243},
+  year={2024}
+}</code></pre>
+  </div>
+</section>
 
 <!-- <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
