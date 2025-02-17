@@ -180,7 +180,11 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            RAD.<br><br><br>
+            Existing end-to-end autonomous driving (AD) algorithms usually follow the Imitation Learning (IL) paradigm, which faces the challenges of causal confusion and open-loop gap. In this work, we build up a 3DGS-based closed-loop Reinforcement Learning (RL) training paradigm.
+            We leverage 3DGS techniques to build photorealistic digital replica of real physical world, in which AD policy can extensively explore the state space and learn to handle out-of-distribution situations with a large amount of trial and error.
+            Safety-related rewards are specially designed to guide the policy to respond effectively to safety-critical events and understand real-world causations.
+            For alignment with human driving behaviors, IL is incorporated into RL training as a regularization term.
+            We construct a closed-loop evaluation benchmark consisting of diverse unseen 3DGS environments for evaluation. Compared to IL-based methods, RAD achieves stronger performance in most closed-loop metrics, especially 3&times lower collision rate.<br><br><br>
           </p>
         </div>
       </div>
@@ -191,7 +195,7 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-2">Closed-Loop Evaluation in 3DGS-based Environments</h2>
+    <h2 class="title is-2" style="white-space: nowrap;">Closed-Loop Evaluation in 3DGS-based Environments</h2>
     <!-- <div class="content has-text-justified">
       RAD takes a three-stage training paradigm. In the perception pre-training, ground-truths of map and agent are used to guide instance-level tokens to encode corresponding information. In the planning pre-training stage, large-scale driving demonstrations are used to initialize the action distribution. In the planning post-training stage, RL and IL synergistically finetune the AD policy.
     </div> -->
