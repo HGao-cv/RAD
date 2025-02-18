@@ -127,45 +127,6 @@
                   <span>Paper</span>
                 </a>
               </span>
-              <!-- <span class="link-block">
-                <a href="https://arxiv.org/abs/2310.08528"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span> --> 
-              <!-- Video Link. -->
-              <!-- <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span> -->
-              
-              <!-- Code Link. -->
-              <!-- <span class="link-block">
-                <a href="https://github.com/hustvl/VAD"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code (Coming soon)</span>
-                  </a>
-              </span> -->
-              <!-- Dataset Link. -->
-              <!-- <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a> -->
             </div>
 
           </div>
@@ -180,11 +141,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Existing end-to-end autonomous driving (AD) algorithms usually follow the Imitation Learning (IL) paradigm, which faces the challenges of causal confusion and open-loop gap. In this work, we build up a 3DGS-based closed-loop Reinforcement Learning (RL) training paradigm.
-            We leverage 3DGS techniques to build photorealistic digital replica of real physical world, in which AD policy can extensively explore the state space and learn to handle out-of-distribution situations with a large amount of trial and error.
-            Safety-related rewards are specially designed to guide the policy to respond effectively to safety-critical events and understand real-world causations.
-            For alignment with human driving behaviors, IL is incorporated into RL training as a regularization term.
-            We construct a closed-loop evaluation benchmark consisting of diverse unseen 3DGS environments for evaluation. Compared to IL-based methods, RAD achieves stronger performance in most closed-loop metrics, especially 3&times lower collision rate.<br><br><br>
+            Existing end-to-end autonomous driving (AD) algorithms typically follow the Imitation Learning (IL) paradigm, which faces challenges such as causal confusion and the open-loop gap. In this work, we establish a 3DGS-based closed-loop Reinforcement Learning (RL) training paradigm. By leveraging 3DGS techniques, we construct a photorealistic digital replica of the real physical world, enabling the AD policy to extensively explore the state space and learn to handle out-of-distribution scenarios through large-scale trial and error. To enhance safety, we design specialized rewards that guide the policy to effectively respond to safety-critical events and understand real-world causal relationships. For better alignment with human driving behavior, IL is incorporated into RL training as a regularization term. We introduce a closed-loop evaluation benchmark consisting of diverse, previously unseen 3DGS environments. Compared to IL-based methods, RAD achieves stronger performance in most closed-loop metrics, especially 3x lower collision rate.<br><br><br>
           </p>
         </div>
       </div>
@@ -195,82 +152,66 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <h2 class="title is-2" style="white-space: nowrap;">Closed-Loop Evaluation in 3DGS-based Environments</h2>
-    <!-- <div class="content has-text-justified">
-      RAD takes a three-stage training paradigm. In the perception pre-training, ground-truths of map and agent are used to guide instance-level tokens to encode corresponding information. In the planning pre-training stage, large-scale driving demonstrations are used to initialize the action distribution. In the planning post-training stage, RL and IL synergistically finetune the AD policy.
-    </div> -->
+    <h2 class="title is-2" style="white-space: nowrap;">Closed-loop Evaluation in 3DGS-based Environments</h2>
     <video controls width="100%">
-      <source src="./static/videos/rad_long35.mp4" type="video/mp4">
+      <source src="./static/videos/rad_long.mp4" type="video/mp4">
     </video>
   </div>
 </section>
-
 
 <section class="section">
   <div class="container is-max-desktop">
     <h2 class="title is-2">Framework</h2>
     <div class="content has-text-justified">
-      RAD takes a three-stage training paradigm. In the perception pre-training, ground-truths of map and agent are used to guide instance-level tokens to encode corresponding information. In the  planning pre-training stage, large-scale driving demonstrations are used to initialize the action distribution. In the planning post-training stage, RL and IL synergistically finetune the AD policy.
+      RAD takes a three-stage training paradigm. In the perception pre-training, ground-truths of map and agent are used to guide instance-level tokens to encode corresponding information. In the planning pre-training stage, large-scale driving demonstrations are used to initialize the action distribution. In the reinforced post-training stage, RL and IL synergistically fine-tune the AD policy.
     </div>
-    <img src="./static/images/frame.png">
+    <img src="./static/images/framework.png">
   </div>
 </section>
 
-<!-- <section class="section">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3">Framework</h2>
-    <div class="content has-text-justified">
-      RAD takes a three-stage training paradigm. In the perception pre-training, ground-truths of map and agent are used to guide instance-level tokens to encode corresponding information. In the planning pre-training stage, large-scale driving demonstrations are used to initialize the action distribution. In the planning post-training stage, RL and IL synergistically fine-tune the AD policy.
-    </div>
-    <iframe src="./static/images/framework.pdf" width="100%" height="600px"></iframe>
-  </div>
-</section> -->
-
 <style>
   .container.fixed-width {
-    max-width: 1000px; /* 让整个内容区域限制宽度，并水平居中 */
+    max-width: 1000px; 
     margin: 0 auto;
   }
   .title-container {
-    padding-left: 0px;  /* 让标题和副标题的左侧位置与视频的最左侧对齐 */
+    padding-left: 0px;  
   }
   .columns {
-    margin-top: 20px;  /* 增加标题和视频之间的间距 */
+    margin-top: 20px; 
   }
 </style>
 
 <head>
   <style>
-    /* 为整个视频区域（包含标题和视频）添加背景 */
     .video-container-wrapper {
-      background-color: #f0f0f0; /* 背景颜色 */
-      padding: 20px; /* 内边距 */
-      border-radius: 5px; /* 圆角效果 */
+      background-color: #f0f0f0; 
+      padding: 20px; 
+      border-radius: 5px; 
     }
 
     .video-container-wrapper video {
-      width: 100%; /* 视频宽度自适应 */
-      border-radius: 8px; /* 可选：视频的圆角效果 */
+      width: 100%; 
+      border-radius: 8px; 
     }
 
     .columns {
-      margin-bottom: 20px; /* 每行之间的间距 */
+      margin-bottom: 20px; 
     }
 
-    /* 为整个container添加背景 */
     .background-container {
-      background-color: #f0f0f0; /* 这里设置外部背景色 */
-      padding: 30px; /* 外部边距 */
-      border-radius: 15px; /* 外部圆角效果 */
+      background-color: #f0f0f0; 
+      padding: 30px; 
+      border-radius: 15px; 
     }
   </style>
 </head>
 
 <div class="container fixed-width">
-  <div class="title-container"> <!-- 让标题和副标题左对齐 -->
-    <h2 class="title is-2">IL-only vs RAD: Closed-Loop Evaluation</h2> 
+  <div class="title-container"> 
+    <h2 class="title is-2">IL-only Policy vs RAD: Closed-loop Evaluation</h2> 
     <div style="height: 3px;"></div>
-    <p class="subtitle is-5">Left: IL-only | Right: RAD</p>  
+    <p class="subtitle is-5">Left: IL-only Policy| Right: RAD</p>  
   </div>
   <div style="height: 10px;"></div>
 
@@ -279,7 +220,7 @@
     <div class="columns is-multiline is-variable is-2 is-centered">  
       <div class="column is-half">  
         <div class="content">
-          <p class="content is-5 has-text-left">IL-only: Dynamic Collision</p>  
+          <p class="content is-5 has-text-left">IL-only Policy: Dynamic Collision</p>  
           <video class="video-container" autoplay controls muted loop playsinline>
             <source src="./static/videos/clip_1726267373699-IL.mp4" type="video/mp4">
           </video>
@@ -304,7 +245,7 @@
       <!-- Row 2 -->
       <div class="column is-half">
         <div class="content">
-          <p class="content is-5 has-text-left">IL-only: Dynamic Collision</p>
+          <p class="content is-5 has-text-left">IL-only Policy: Dynamic Collision</p>
           <video class="video-container" autoplay controls muted loop playsinline>
             <source src="./static/videos/clip_1726273717199-IL.mp4" type="video/mp4">
           </video>
@@ -329,7 +270,7 @@
         <!-- Row 3 -->
         <div class="column is-half">
             <div class="content">
-                <p class="content is-5 has-text-left">IL-only: Dynamic Collision</p>
+                <p class="content is-5 has-text-left">IL-only Policy: Dynamic Collision</p>
                 <video class="video-container" autoplay controls muted loop playsinline>
                     <source src="./static/videos/clip_1726300101299-IL.mp4" type="video/mp4">
                 </video>
@@ -353,7 +294,7 @@
         <!-- Row 4 -->
         <div class="column is-half">
             <div class="content">
-                <p class="content is-5 has-text-left">IL-only: Position Deviation</p>
+                <p class="content is-5 has-text-left">IL-only Policy: Position Deviation</p>
                 <video class="video-container" autoplay controls muted loop playsinline>
                     <source src="./static/videos/clip_1726710854599-IL.mp4" type="video/mp4">
                 </video>
@@ -377,7 +318,7 @@
           <!-- Row 5 -->
           <div class="column is-half">
               <div class="content">
-                  <p class="content is-5 has-text-left">IL-only: Dynamic Collision</p>
+                  <p class="content is-5 has-text-left">IL-only Policy: Dynamic Collision</p>
                   <video class="video-container" autoplay controls muted loop playsinline>
                       <source src="./static/videos/clip_1726362331499-IL.mp4" type="video/mp4">
                   </video>
@@ -401,7 +342,7 @@
           <!-- Row 6 -->
           <div class="column is-half">
               <div class="content">
-                  <p class="content is-5 has-text-left">IL-only: Dynamic Collision</p>
+                  <p class="content is-5 has-text-left">IL-only Policy: Dynamic Collision</p>
                   <video class="video-container" autoplay controls muted loop playsinline>
                       <source src="./static/videos/clip_1726613460899-IL.mp4" type="video/mp4">
                   </video>
@@ -425,7 +366,7 @@
           <!-- Row 7 -->
           <div class="column is-half">
               <div class="content">
-                  <p class="content is-5 has-text-left">IL-only: Dynamic Collision</p>
+                  <p class="content is-5 has-text-left">IL-only Policy: Dynamic Collision</p>
                   <video class="video-container" autoplay controls muted loop playsinline>
                       <source src="./static/videos/clip_1726923764200-IL.mp4" type="video/mp4">
                   </video>
@@ -449,7 +390,7 @@
           <!-- Row 8 -->
           <div class="column is-half">
               <div class="content">
-                  <p class="content is-5 has-text-left">IL-only: Dynamic Collision</p>
+                  <p class="content is-5 has-text-left">IL-only Policy: Dynamic Collision</p>
                   <video class="video-container" autoplay controls muted loop playsinline>
                       <source src="./static/videos/clip_1726267968399-IL.mp4" type="video/mp4">
                   </video>
@@ -473,7 +414,7 @@
           <!-- Row 9 -->
           <div class="column is-half">
               <div class="content">
-                  <p class="content is-5 has-text-left">IL-only: Dynamic Collision</p>
+                  <p class="content is-5 has-text-left">IL-only Policy: Dynamic Collision</p>
                   <video class="video-container" autoplay controls muted loop playsinline>
                       <source src="./static/videos/clip_1726723784999-IL.mp4" type="video/mp4">
                   </video>
@@ -497,7 +438,7 @@
           <!-- Row 10 -->
           <div class="column is-half">
               <div class="content">
-                  <p class="content is-5 has-text-left">IL-only: Heading Deviation</p>
+                  <p class="content is-5 has-text-left">IL-only Policy: Heading Deviation</p>
                   <video class="video-container" autoplay controls muted loop playsinline>
                       <source src="./static/videos/clip_1726268262099-IL.mp4" type="video/mp4">
                   </video>
@@ -588,8 +529,8 @@
 <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title is-3">BibTeX</h2>
-    <pre><code>@article{Vadv2,
-  title={Vadv2: End-to-end vectorized autonomous driving via probabilistic planning},
+    <pre><code>@article{RAD,
+  title={RAD: Training an End-to-End Driving Policy via Large-Scale 3DGS-based Reinforcement Learning},
   author={Chen, Shaoyu and Jiang, Bo and Gao, Hao and Liao, Bencheng and Xu, Qing and Zhang, Qian and Huang, Chang and Liu, Wenyu and Wang, Xinggang},
   journal={arXiv preprint arXiv:2402.13243},
   year={2024}
